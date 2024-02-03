@@ -28,6 +28,24 @@ def insertionsort(inArray):
 
         inArray[j + 1] = key
 
+# Shell sort
+# O(n^(3/2))
+def shellsort(inArray):
+    n = len(inArray)
+    gap = n // 2
+
+    while gap > 0:
+        j = gap
+        while j < n:
+            i = j - gap
+            while i >= 0:
+                if inArray[i + gap] > inArray[i]:
+                    break
+                else:
+                    inArray[i + gap], inArray[i] = inArray[i], inArray[i + gap]
+                i = i - gap
+            j += 1
+        gap = gap //2
 
 # O(n) - Partition for Quick Sort
 def partition(inArray, low, high):
@@ -90,6 +108,40 @@ def mergesort(inArray):
                 j += 1
                 k += 1
 
+# Counting Sort for Radix Sort
+def countingsort(inArray, digits):
+    n = len(inArray)
+
+    output = [0] * (n)
+    count = [0] * (10)
+
+    for i in range(0, n):
+        idx = inArray[i] // digits
+        count[idx % 10] += 1
+
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    i = n - 1
+    while i >= 0:
+        idx = inArray[i] // digits
+        output[count[idx % 10] - 1] = inArray[i]
+        count[idx % 10] -= 1
+        i -= 1
+
+    for j in range(0, len(inArray)):
+        inArray[j] = output[j]
+
+
+# Radix Sort
+# O(d *(n+b)) = very efficient for integer lists
+def radixsort(inArray):
+    maximum = max(inArray)
+
+    exp = 1
+    while maximum / exp >= 1:
+        countingsort(inArray, exp)
+        exp *= 10
 
 def proveTheyWork():
     array1 = []
@@ -98,31 +150,41 @@ def proveTheyWork():
     array2 = array1
     array3 = array1
     array4 = array1
+    array5 = array1
+    array6 = array1
     print(array1)
     print(array2)
     print(array3)
     print(array4)
+    print(array5)
+    print(array6)
 
     selectionsort(array1)
     insertionsort(array2)
-    quicksort(array3, 0, len(array3) - 1)
-    mergesort(array4)
+    shellsort(array3)
+    quicksort(array4, 0, len(array4) - 1)
+    mergesort(array5)
+    radixsort(array6)
 
     print("Selection Sorted")
     print(array1)
     print("Insertion Sorted")
     print(array2)
-    print("Quick Sorted")
+    print("Shell Sorted")
     print(array3)
-    print("Merge Sorted")
+    print("Quick Sorted")
     print(array4)
+    print("Merge Sorted")
+    print(array5)
+    print("Radix Sorted")
+    print(array6)
 
 
 # Benchmark analysis function, takes a code snippet in
 def benchmarkAnalysis(IN_CODE):
     SETUP_CODE = '''
 import random
-from __main__ import insertionsort, selectionsort, quicksort, mergesort
+from __main__ import insertionsort, selectionsort, shellsort, quicksort, mergesort, radixsort
 '''
 
     TEST_CODE = '''
@@ -147,12 +209,20 @@ selectionsort(array1)
 insertionsort(array1)
 '''
 
+    SHELL_CODE = '''
+shellsort(array1)
+'''
+
     QUICK_CODE = '''
 quicksort(array1, 0, len(array1) - 1)
 '''
 
     MERGE_CODE = '''
 mergesort(array1)
+'''
+
+    RADIX_CODE = '''
+radixsort(array1)
 '''
 
     proveTheyWork()
@@ -162,9 +232,13 @@ mergesort(array1)
     print(
         f"Insertion Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(INSERTION_CODE), 4)} seconds")
     print(
+        f"Shell Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(SHELL_CODE), 4)} seconds")
+    print(
         f"Quick Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(QUICK_CODE), 4)} seconds")
     print(
         f"Merge Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(MERGE_CODE), 4)} seconds")
+    print(
+        f"Radix Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(RADIX_CODE), 4)} seconds")
 
 
 main()
