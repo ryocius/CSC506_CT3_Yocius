@@ -1,5 +1,7 @@
 import random
-import time
+import timeit
+import math
+
 
 # Selection Sort
 # O(n^2)
@@ -41,6 +43,7 @@ def partition(inArray, low, high):
     (inArray[pointer + 1], inArray[high]) = (inArray[high], inArray[pointer + 1])
 
     return pointer + 1
+
 
 # Recursive Quick Sort
 # O(n log(n))
@@ -88,43 +91,71 @@ def mergesort(inArray):
                 k += 1
 
 
+def proveTheyWork():
+    array1 = []
+    for i in range(500):
+        array1.append(random.randint(0, 500))
+    array2 = array1
+    array3 = array1
+    array4 = array1
+    print(array1)
+    print(array2)
+    print(array3)
+    print(array4)
+
+    selectionsort(array1)
+    insertionsort(array2)
+    quicksort(array3, 0, len(array3) - 1)
+    mergesort(array4)
+
+    print(array1)
+    print(array2)
+    print(array3)
+    print(array4)
+
+
+# Benchmark analysis function, takes a code snippet in
+def benchmarkAnalysis(IN_CODE):
+    SETUP_CODE = '''
+import random
+from __main__ import insertionsort, selectionsort, quicksort, mergesort
+'''
+
+    TEST_CODE = '''
 array1 = []
 for i in range(500):
     array1.append(random.randint(0, 500))
-array2 = array1
-array3 = array1
-array4 = array1
-print(array1)
-print(array2)
-print(array3)
-print(array4)
+    '''
+
+    TEST_CODE = TEST_CODE + IN_CODE
+
+    times = timeit.repeat(setup=SETUP_CODE, stmt=TEST_CODE, repeat=3, number=100)
+    return min(times)
 
 
+
+# Main function, sets up the various code run by each benchmark, executes, and prints
+def main():
+    SELECTION_CODE = '''
 selectionsort(array1)
-insertionsort(array2)
-quicksort(array3, 0, len(array3)-1)
-mergesort(array4)
+'''
+
+    INSERTION_CODE = '''
+insertionsort(array1)
+'''
+
+    QUICK_CODE = '''
+quicksort(array1, 0, len(array1) - 1)
+'''
+
+    MERGE_CODE = '''
+mergesort(array1)
+'''
+
+    print(f"Selection Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(SELECTION_CODE), 4)} seconds")
+    print(f"Insertion Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(INSERTION_CODE), 4)} seconds")
+    print(f"Quick Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(QUICK_CODE), 4)} seconds")
+    print(f"Merge Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(MERGE_CODE), 4)} seconds")
 
 
-print(array1)
-print(array2)
-print(array3)
-print(array4)
-
-
-
-
-start = time.perf_counter()
-
-stop = time.perf_counter()
-print(f"Recursive Quick Sort on a {len(array1)} item list takes {stop-start} seconds")
-
-
-start = time.perf_counter()
-insertionsort(array2)
-stop = time.perf_counter()
-print(f"Insertion Sort on a {len(array2)} item list takes {stop-start} seconds")
-
-
-
-
+main()
