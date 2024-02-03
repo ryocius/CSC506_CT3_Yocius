@@ -108,9 +108,13 @@ def proveTheyWork():
     quicksort(array3, 0, len(array3) - 1)
     mergesort(array4)
 
+    print("Selection Sorted")
     print(array1)
+    print("Insertion Sorted")
     print(array2)
+    print("Quick Sorted")
     print(array3)
+    print("Merge Sorted")
     print(array4)
 
 
@@ -133,7 +137,6 @@ for i in range(500):
     return min(times)
 
 
-
 # Main function, sets up the various code run by each benchmark, executes, and prints
 def main():
     SELECTION_CODE = '''
@@ -152,10 +155,16 @@ quicksort(array1, 0, len(array1) - 1)
 mergesort(array1)
 '''
 
-    print(f"Selection Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(SELECTION_CODE), 4)} seconds")
-    print(f"Insertion Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(INSERTION_CODE), 4)} seconds")
-    print(f"Quick Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(QUICK_CODE), 4)} seconds")
-    print(f"Merge Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(MERGE_CODE), 4)} seconds")
+    proveTheyWork()
+
+    print(
+        f"Selection Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(SELECTION_CODE), 4)} seconds")
+    print(
+        f"Insertion Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(INSERTION_CODE), 4)} seconds")
+    print(
+        f"Quick Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(QUICK_CODE), 4)} seconds")
+    print(
+        f"Merge Sort: Time for the best 100 iterations out of 3 runs is {round(benchmarkAnalysis(MERGE_CODE), 4)} seconds")
 
 
 main()
