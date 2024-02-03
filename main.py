@@ -1,6 +1,5 @@
 import random
 import timeit
-import math
 
 
 # Selection Sort
@@ -28,6 +27,7 @@ def insertionsort(inArray):
 
         inArray[j + 1] = key
 
+
 # Shell sort
 # O(n^(3/2))
 def shellsort(inArray):
@@ -45,7 +45,8 @@ def shellsort(inArray):
                     inArray[i + gap], inArray[i] = inArray[i], inArray[i + gap]
                 i = i - gap
             j += 1
-        gap = gap //2
+        gap = gap // 2
+
 
 # O(n) - Partition for Quick Sort
 def partition(inArray, low, high):
@@ -108,6 +109,7 @@ def mergesort(inArray):
                 j += 1
                 k += 1
 
+
 # Counting Sort for Radix Sort
 def countingsort(inArray, digits):
     n = len(inArray)
@@ -142,6 +144,7 @@ def radixsort(inArray):
     while maximum / exp >= 1:
         countingsort(inArray, exp)
         exp *= 10
+
 
 def proveTheyWork():
     array1 = []
